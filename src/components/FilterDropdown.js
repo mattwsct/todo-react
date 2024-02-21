@@ -7,7 +7,7 @@ const FilterDropdown = ({ filterOption, handleFilterChange }) => (
       id="filter"
       value={filterOption}
       onChange={handleFilterChange}
-      className="border p-2 rounded-lg"
+      className="border p-2 rounded-3xl"
     >
       <option value="all">All</option>
       <option value="done">Done</option>

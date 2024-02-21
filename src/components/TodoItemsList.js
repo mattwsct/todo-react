@@ -10,7 +10,7 @@ const TodoItemsList = ({
     {filteredTodos.map((todo) => (
       <li
         key={todo._id}
-        className="flex items-center justify-between bg-white p-4 rounded shadow"
+        className="flex items-center justify-between bg-white p-2 rounded-3xl shadow"
       >
         <div>
           <input
@@ -25,7 +25,7 @@ const TodoItemsList = ({
         </div>
 
         <button
-          className="bg-gray-600 text-white py-2 px-4 rounded-xl"
+          className="bg-gray-600 text-white py-2 px-4 rounded-3xl"
           onClick={() => handleDeleteTodo(todo._id)}
         >
           Delete

@@ -97,6 +97,7 @@ const TodoList = ({ username }) => {
 
   useEffect(() => {
     fetchTodos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username]);
 
   // Calculate the progress information based on all todos
@@ -139,10 +140,10 @@ const TodoList = ({ username }) => {
       {/* Popup message */}
       {popupMessage && (
         <div
-          className={`fixed bottom-4 right-4 p-4 rounded shadow ${
+          className={`fixed bottom-4 right-4 p-4 border-2 rounded-3xl shadow ${
             popupMessage.color === 'red'
-              ? 'bg-red-500 text-white'
-              : 'bg-green-500 text-white'
+              ? 'text-red-500 border-red-500 bg-white'
+              : 'text-green-500  bg-white'
           }`}
         >
           {popupMessage.text}
