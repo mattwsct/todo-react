@@ -114,7 +114,7 @@ const TodoList = ({ username }) => {
       : todos;
 
   return (
-    <div className="container mx-auto p-4 bg-gray-200 rounded-xl">
+    <div className="container mx-auto bg-[#f5f5f5] rounded-3xl max-w-[720px] py-[60px] px-[100px]">
       <ProgressBar progress={progress} completedTasks={completedTasks} />
       <div className="flex justify-between">
         <h2 className="text-2xl font-bold mb-4">To-dos</h2>
