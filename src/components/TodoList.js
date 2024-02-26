@@ -8,16 +8,19 @@ import apiService from '../services/apiService';
 const TodoList = ({ username }) => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
-  const [filterOption, setFilterOption] = useState('all'); // 'all', 'done', 'notDone'
-  const [isAddingTodo, setIsAddingTodo] = useState(false);
+  const [filterOption, setFilterOption] = useState('all');
+  const [isLoading, setIsLoading] = useState(false);
   const [popupMessage, setPopupMessage] = useState(null);
 
   const fetchTodos = async () => {
     try {
+      setIsLoading(true);
       const response = await apiService.get(`/api/${username}/todos`);
       setTodos(response.data);
     } catch (error) {
       console.error('Error fetching todos:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -30,11 +33,10 @@ const TodoList = ({ username }) => {
     }
 
     try {
-      console.log(`Deleting todo with id ${todoId}`);
+      setIsLoading(true);
       const response = await apiService.delete(
         `/api/${username}/todos/${todoId}`
       );
-      console.log('API response:', response);
       setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== todoId));
       setPopupMessage({ text: 'Todo deleted successfully', color: 'green' });
       setTimeout(() => setPopupMessage(null), 3000);
@@ -45,16 +47,17 @@ const TodoList = ({ username }) => {
         color: 'red',
       });
       setTimeout(() => setPopupMessage(null), 3000);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleToggleTodo = async (todoId) => {
     try {
-      console.log(`Toggling todo with id ${todoId}`);
+      setIsLoading(true);
       const response = await apiService.put(
         `/api/${username}/todos/${todoId}/toggle`
       );
-      console.log('API response:', response);
       setTodos((prevTodos) =>
         prevTodos.map((todo) =>
           todo._id === todoId ? { ...todo, isDone: !todo.isDone } : todo
@@ -62,26 +65,27 @@ const TodoList = ({ username }) => {
       );
     } catch (error) {
       console.error('Error toggling todo:', error.response);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleCreateTodo = async () => {
     try {
-      setIsAddingTodo(true);
+      setIsLoading(true);
       await apiService.post(`/api/${username}/todos/create`, { text: newTodo });
       fetchTodos();
       setNewTodo('');
       setPopupMessage({ text: 'Item has been added', color: 'green' });
     } catch (error) {
       console.error('Error creating todo:', error);
-      console.log('Detailed error response:', error.response);
       setPopupMessage({
         text: error.response?.data?.error || 'Error creating todo',
         color: 'red',
       });
     } finally {
-      setIsAddingTodo(false);
-      setTimeout(() => setPopupMessage(null), 3000); // Clear the message after 3 seconds
+      setIsLoading(false);
+      setTimeout(() => setPopupMessage(null), 3000);
     }
   };
 
@@ -100,12 +104,10 @@ const TodoList = ({ username }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username]);
 
-  // Calculate the progress information based on all todos
   const completedTasks = todos.filter((todo) => todo.isDone).length;
   const totalTasks = todos.length;
   const progress = totalTasks === 0 ? 0 : (completedTasks / totalTasks) * 100;
 
-  // Filtering logic
   const filteredTodos =
     filterOption === 'done'
       ? todos.filter((todo) => todo.isDone)
@@ -115,6 +117,15 @@ const TodoList = ({ username }) => {
 
   return (
     <div className="container mx-auto bg-[#f5f5f5] rounded-3xl max-w-[720px] py-[60px] px-[100px]">
+      {isLoading && (
+        <div
+          className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
+          style={{ zIndex: 9999 }}
+        >
+          <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"></div>
+        </div>
+      )}
+
       <ProgressBar progress={progress} completedTasks={completedTasks} />
       <div className="flex justify-between">
         <h2 className="text-2xl font-bold mb-4">To-dos</h2>
@@ -127,7 +138,7 @@ const TodoList = ({ username }) => {
       <AddTodoSection
         newTodo={newTodo}
         setNewTodo={setNewTodo}
-        isAddingTodo={isAddingTodo}
+        isAddingTodo={isLoading}
         handleCreateTodo={handleCreateTodo}
         handleEnterKeyPress={handleEnterKeyPress}
       />
@@ -137,7 +148,6 @@ const TodoList = ({ username }) => {
         handleToggleTodo={handleToggleTodo}
       />
 
-      {/* Popup message */}
       {popupMessage && (
         <div
           className={`fixed bottom-4 right-4 p-4 border-2 rounded-3xl shadow ${
