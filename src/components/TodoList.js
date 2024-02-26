@@ -34,9 +34,7 @@ const TodoList = ({ username }) => {
 
     try {
       setIsLoading(true);
-      const response = await apiService.delete(
-        `/api/${username}/todos/${todoId}`
-      );
+      await apiService.delete(`/api/${username}/todos/${todoId}`);
       setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== todoId));
       setPopupMessage({ text: 'Todo deleted successfully', color: 'green' });
       setTimeout(() => setPopupMessage(null), 3000);
@@ -55,9 +53,7 @@ const TodoList = ({ username }) => {
   const handleToggleTodo = async (todoId) => {
     try {
       setIsLoading(true);
-      const response = await apiService.put(
-        `/api/${username}/todos/${todoId}/toggle`
-      );
+      await apiService.put(`/api/${username}/todos/${todoId}/toggle`);
       setTodos((prevTodos) =>
         prevTodos.map((todo) =>
           todo._id === todoId ? { ...todo, isDone: !todo.isDone } : todo
@@ -89,8 +85,8 @@ const TodoList = ({ username }) => {
     }
   };
 
-  const handleFilterChange = (event) => {
-    setFilterOption(event.target.value);
+  const handleFilterChange = ({ target }) => {
+    setFilterOption(target.value);
   };
 
   const handleEnterKeyPress = (event) => {
