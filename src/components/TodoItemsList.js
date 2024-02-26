@@ -1,7 +1,7 @@
 // TodoItemsList.js
-import React, { useState, useEffect, useRef } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
 const TodoItemsList = ({
   filteredTodos,
@@ -23,10 +23,10 @@ const TodoItemsList = ({
       }
     };
 
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
 
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
@@ -35,22 +35,22 @@ const TodoItemsList = ({
       {filteredTodos.map((todo) => (
         <li
           key={todo._id}
-          className="relative flex items-center justify-between bg-white p-2 rounded-3xl shadow"
+          className="relative flex items-center justify-between rounded-3xl bg-white p-2 shadow"
         >
           <div>
             <input
               type="checkbox"
               checked={todo.isDone}
               onChange={() => handleToggleTodo(todo._id)}
-              className="accent-gray-600 m-2"
+              className="m-2 accent-gray-600"
             />
-            <span className={todo.isDone ? 'line-through text-gray-500' : ''}>
+            <span className={todo.isDone ? "text-gray-500 line-through" : ""}>
               {todo.text}
-            </span>{' '}
+            </span>{" "}
           </div>
 
           <button
-            className="text-gray-600 text-xl mx-2 focus:outline-none"
+            className="mx-2 text-xl text-gray-600 focus:outline-none"
             onClick={(event) => handleToggleDetails(todo._id, event)}
           >
             <FontAwesomeIcon icon={faEllipsisH} />
@@ -59,10 +59,10 @@ const TodoItemsList = ({
           {showDetails === todo._id && (
             <div
               ref={detailsRef}
-              className="bg-white px-4 py-2 rounded-3xl shadow z-[1000] absolute -bottom-4 -right-6 transform -translate-x-1/2 translate-y-4"
+              className="absolute -bottom-4 -right-6 z-[1000] -translate-x-1/2 translate-y-4 transform rounded-3xl bg-white px-4 py-2 shadow"
             >
               <button
-                className="text-red-500 rounded-3xl"
+                className="rounded-3xl text-red-500"
                 onClick={() => handleDeleteTodo(todo._id)}
               >
                 Delete

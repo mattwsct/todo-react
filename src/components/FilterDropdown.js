@@ -1,5 +1,5 @@
 // FilterDropdown.js
-import React from 'react';
+import React from "react";
 
 const FilterDropdown = ({ filterOption, handleFilterChange }) => (
   <div className="mb-4">
@@ -7,7 +7,7 @@ const FilterDropdown = ({ filterOption, handleFilterChange }) => (
       id="filter"
       value={filterOption}
       onChange={handleFilterChange}
-      className="border p-2 rounded-3xl"
+      className="rounded-3xl border p-2"
     >
       <option value="all">All</option>
       <option value="done">Done</option>

@@ -1,13 +1,13 @@
 // ProgressBar.js
-import React from 'react';
+import React from "react";
 
 const ProgressBar = ({ progress, completedTasks }) => (
-  <div className="items-center mb-4 bg-[#576371] text-white rounded-3xl px-4 py-6">
-    <h2 className="text-2xl font-bold mb-4">Progress</h2>
-    <div className="w-full rounded-full h-1.5 mb-4 bg-white">
+  <div className="mb-4 items-center rounded-3xl bg-[#576371] px-4 py-6 text-white">
+    <h2 className="mb-4 text-2xl font-bold">Progress</h2>
+    <div className="mb-4 h-1.5 w-full rounded-full bg-white">
       <div
         className={`h-1.5 rounded-full ${
-          progress === 100 ? 'bg-green-500' : 'bg-blue-400'
+          progress === 100 ? "bg-green-500" : "bg-blue-400"
         }`}
         style={{ width: `${progress}%` }}
       ></div>

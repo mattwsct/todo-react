@@ -1,8 +1,8 @@
-import React from 'react';
-import TodoList from './components/TodoList';
+import React from "react";
+import TodoList from "./components/TodoList";
 
 const App = () => {
-  const username = 'mattw';
+  const username = "mattw";
 
   return (
     <div className="p-[60px]">
