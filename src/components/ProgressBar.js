@@ -6,7 +6,9 @@ const ProgressBar = ({ progress, completedTasks }) => (
     <h2 className="text-2xl font-bold mb-4">Progress</h2>
     <div className="w-full rounded-full h-1.5 mb-4 bg-white">
       <div
-        className="bg-blue-400 h-1.5 rounded-full"
+        className={`h-1.5 rounded-full ${
+          progress === 100 ? 'bg-green-500' : 'bg-blue-400'
+        }`}
         style={{ width: `${progress}%` }}
       ></div>
     </div>
